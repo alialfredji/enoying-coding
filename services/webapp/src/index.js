@@ -9,6 +9,7 @@ import Root from 'app/Root'
 // Import global stylesheet entrypoint
 // any loader based stylesheet should be imported there
 import 'styles'
+import 'typeface-roboto'
 
 // History & Store singleton setup in development mode
 // prevents multiple store instances when accepting HMR data
