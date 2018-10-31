@@ -19,6 +19,7 @@
   "dependencies": {
     "@marcopeg/utils": "^1.8.9",
     "@material-ui/core": "^3.3.2",
+    "@material-ui/icons": "^3.0.1",
     "babel-plugin-dynamic-import-node": "^1.2.0",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-register": "^6.26.0",
