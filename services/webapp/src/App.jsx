@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet'
 import radium from 'radium'
 
 import { Dashboard } from 'features/dashboard'
+import { HomePage } from 'features/home-page'
 
 import getStyles from './App.style'
 const styles = getStyles()
@@ -19,7 +20,8 @@ const App = (props) => (
             <html lang="en" />
             <title>Enjoying coding</title>
         </Helmet>
-        <Route path="/" exact component={Dashboard} />
+        <Route path="/" exact component={HomePage} />
+        <Route path="/(home|tasks|notes|profile)" exact component={Dashboard} />
     </div>
 )
 
