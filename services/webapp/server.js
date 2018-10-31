@@ -64,6 +64,22 @@ const boot = async () => {
         winston.verbose('[boot] init services...')
         await env.init()
 
+        await server.init({
+            ssrEnabled: getConfig('SSR_ENABLED', defaultEnv.ssrEnabled),
+            ssrTimeout: getConfig('SSR_TIMEOUT', defaultEnv.ssrTimeout),
+            ssrRoot: getConfig('SSR_ROOT', defaultEnv.ssrRoot),
+            ssrBuild: getConfig('SSR_BUILD', defaultEnv.ssrBuild),
+            ssrPort: getConfig('SSR_PORT', defaultEnv.ssrPort),
+            ssrDisableJs: getConfig('SSR_DISABLE_JS', defaultEnv.ssrDisableJs),
+            ssrUseWebpackJs: getConfig('SSR_USE_WEBPACK_JS', defaultEnv.ssrUseWebpackJs),
+            ssrBlacklist: getConfig('SSR_BLACKLIST', defaultEnv.ssrBlacklist),
+            nodeEnv: getConfig('NODE_ENV'),
+        })
+
+        // @TODO: Check later what this does
+        const Loadable = require('react-loadable') // eslint-disable-line
+        await Loadable.preloadAll()
+
         // start services
         winston.verbose('[boot] start services...')
         await server.start({
@@ -96,21 +112,6 @@ const boot = async () => {
         })
 
         winston.verbose('[boot] complete!')
-
-        // await server.init({
-        //     ssrEnabled: getConfig('SSR_ENABLED', defaultEnv.ssrEnabled),
-        //     ssrTimeout: getConfig('SSR_TIMEOUT', defaultEnv.ssrTimeout),
-        //     ssrRoot: getConfig('SSR_ROOT', defaultEnv.ssrRoot),
-        //     ssrBuild: getConfig('SSR_BUILD', defaultEnv.ssrBuild),
-        //     ssrPort: getConfig('SSR_PORT', defaultEnv.ssrPort),
-        //     ssrDisableJs: getConfig('SSR_DISABLE_JS', defaultEnv.ssrDisableJs),
-        //     ssrUseWebpackJs: getConfig('SSR_USE_WEBPACK_JS', defaultEnv.ssrUseWebpackJs),
-        //     ssrBlacklist: getConfig('SSR_BLACKLIST', defaultEnv.ssrBlacklist),
-        //     nodeEnv: getConfig('NODE_ENV'),
-        // })
-
-        // const Loadable = require('react-loadable') // eslint-disable-line
-        // await Loadable.preloadAll()
     } catch (err) {
         winston.error('===== BOOT ERROR ======')
         winston.error(err.message)
