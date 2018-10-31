@@ -1,8 +1,26 @@
 version: '2.1'
 services:
 
+    postgres:
+        image: fetchq/fetchq:9.6-1.3.0
+        # build: ./services/postgres
+        networks:
+            - development
+        ports:
+            - ${PG_PORT-5432}:5432
+        environment:
+            POSTGRES_USER: ${PG_USER-mysocial}
+            POSTGRES_PASSWORD: ${PG_PASSWORD-mysocial}
+            POSTGRES_DB: ${PG_DB-mysocial}
+        volumes:
+            - ${HUMBLE_DATA}/pg:/var/lib/postgresql/data
+            - ${HUMBLE_BACKUP}:/backup
+        restart: always
+
     webapp:
         build: ./services/webapp
+        depends_on:
+            - postgres
         networks:
             - production
         environment:
@@ -16,6 +34,14 @@ services:
             SSR_DISABLE_JS: ${SSR_DISABLE_JS:-no}
             SSR_USE_WEBPACK_JS: ${SSR_USE_WEBPACK_JS:-no}
             SSR_BLACKLIST: ${SSR_BLACKLIST:-}
+            PG_HOST: ${PG_HOST:-postgres}
+            PG_PORT: ${PG_PORT:-5432}
+            PG_DB: ${PG_DB:-mysocial}
+            PG_USER: ${PG_USER:-mysocial}
+            PG_PASSWORD: ${PG_PASSWORD:-mysocial}
+            PG_DEBUG: ${PG_DEBUG:-off}
+            PG_MAX_CONN_ATTEMPTS: ${PG_MAX_CONN_ATTEMPTS:-10}
+            PG_CONN_ATTEMPTS_DELAY: ${PG_CONN_ATTEMPTS_DELAY:-10}
         restart: always
 
     proxy:

@@ -1,8 +1,26 @@
 version: '2.1'
 services:
 
+    postgres:
+        image: fetchq/fetchq:9.6-1.3.0
+        # build: ./services/postgres
+        networks:
+            - development
+        ports:
+            - ${PG_PORT-5432}:5432
+        environment:
+            POSTGRES_USER: ${PG_USER-subnik}
+            POSTGRES_PASSWORD: ${PG_PASSWORD-subnik}
+            POSTGRES_DB: ${PG_DB-subnik}
+        volumes:
+            - ${HUMBLE_DATA}/pg:/var/lib/postgresql/data
+            - ${HUMBLE_BACKUP}:/backup
+        restart: always
+
     webapp:
         image: node:9.9
+        depends_on:
+            - postgres
         networks:
             - development
         ports:
@@ -18,6 +36,14 @@ services:
             SSR_DISABLE_JS: ${SSR_DISABLE_JS:-no}
             SSR_USE_WEBPACK_JS: ${SSR_USE_WEBPACK_JS:-no}
             SSR_BLACKLIST: ${SSR_BLACKLIST:-}
+            PG_HOST: ${PG_HOST:-postgres}
+            PG_PORT: ${PG_PORT:-5432}
+            PG_DB: ${PG_DB:-subnik}
+            PG_USER: ${PG_USER:-subnik}
+            PG_PASSWORD: ${PG_PASSWORD:-subnik}
+            PG_DEBUG: ${PG_DEBUG:-off}
+            PG_MAX_CONN_ATTEMPTS: ${PG_MAX_CONN_ATTEMPTS:-1}
+            PG_CONN_ATTEMPTS_DELAY: ${PG_CONN_ATTEMPTS_DELAY:-1}
         volumes:
             - ./services/webapp:/usr/src/app
         working_dir: /usr/src/app
