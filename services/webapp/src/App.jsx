@@ -5,6 +5,7 @@ import radium from 'radium'
 
 import { Dashboard } from 'features/dashboard'
 import { HomePage } from 'features/home-page'
+import StackLayout from 'layouts/StackLayout'
 
 import getStyles from './App.style'
 const styles = getStyles()
@@ -22,6 +23,7 @@ const App = (props) => (
         </Helmet>
         <Route path="/" exact component={HomePage} />
         <Route path="/(home|tasks|notes|profile)" exact component={Dashboard} />
+        <StackLayout />
     </div>
 )
 
