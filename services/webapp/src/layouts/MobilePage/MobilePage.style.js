@@ -1,6 +1,6 @@
 
 export default {
-    position: 'relative',
+    // position: 'relative',
     // height: '100vh',
     // width: '100vw',
     // overflow: 'hidden',

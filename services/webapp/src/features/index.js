@@ -9,4 +9,5 @@
 
 export default [
     require('redux-events-middleware/lib/location'),
+    require('./notes'),
 ]
