@@ -2,14 +2,18 @@
 import React from 'react'
 
 import TextField from '@material-ui/core/TextField'
+import InputBase from '@material-ui/core/InputBase'
 
 class AddNewNote extends React.PureComponent {
     componentDidMount () {
-        console.log(this.input)
     }
 
     state = {
-        autoFocus: false,
+        value: ''
+    }
+
+    handleValueChange = (e) => {
+        this.setState({ value: e.target.value })
     }
 
     render () {
@@ -17,8 +21,14 @@ class AddNewNote extends React.PureComponent {
             <div>
                 <div onClick={this.props.stackLayout.close}>Close</div>
                 <br />
-                <TextField 
-                    placeholder={'Add a new note...'}
+                <InputBase
+                    autoFocus
+                    placeholder={'Type a new note...'}
+                    multiline
+                    rowsMax={1000}
+                    value={this.state.value}
+                    onChange={this.handleValueChange}
+                    fullWidth
                 />
             </div>
         )
