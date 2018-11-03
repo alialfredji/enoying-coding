@@ -21,3 +21,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# just to have some test files for graphql
+/ssr/routes/graphql/session
